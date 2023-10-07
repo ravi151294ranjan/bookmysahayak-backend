@@ -4,7 +4,14 @@ const bcrypt = require('bcrypt');
 const {ObjectID} = require('mongodb');
 
 const userSchema = new mongoose.Schema({
-    name: {
+    firstName: {
+        type: String,
+        required: [
+            true, 'Name required'
+        ],
+        trim: true
+    },
+    lastName: {
         type: String,
         required: [
             true, 'Name required'
@@ -21,6 +28,15 @@ const userSchema = new mongoose.Schema({
         lowercase: true,
         validator: [validator.isEmail, 'Please provide a valid email']
     },
+    mobileNumber:{
+        type: Number,
+        required: [
+            true, 'Email required'
+        ],
+        unique: true,
+        trim: true,
+        validator: [validator.isMobileNumber, 'Please provide a valid Mobile Number']
+    },
     password: {
         type: String,
         required: [
@@ -34,13 +50,43 @@ const userSchema = new mongoose.Schema({
             }
         }
     },
-    address: {
-        type: String,
-        required: [
-            true, 'Address required'
-        ],
-        trim: true
-    },
+    address:[{
+        country:{
+            type: String,
+            required: [
+                true, 'Country is required'
+            ],
+            trim: true
+        },
+        state:{
+            type: String,
+            required: [
+                true, 'State is required'
+            ],
+            trim: true
+        },
+        pincode:{
+            type: Number,
+            required: [
+                true, 'Pincode is required'
+            ],
+            trim: true
+        },
+        Lane_1:{
+            type: String,
+            required: [
+                true, 'Lane_1 is required'
+            ],
+            trim: true
+        },
+        Lane_2:{
+            type: String,
+            required: [
+                true, 'Lane_2 is required'
+            ],
+            trim: true
+        },
+    }],
     role: {
         type: String,
         default: 'customer',
@@ -51,7 +97,7 @@ const userSchema = new mongoose.Schema({
     },
     services: [
         {
-            sericeID: {
+            serviceID: {
                 type: ObjectID,
                 trim: true
             }
